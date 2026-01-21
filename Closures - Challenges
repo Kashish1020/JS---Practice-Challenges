@@ -1,0 +1,53 @@
+CHALLENGES -
+
+Challenge 1: The Secret Vault
+In plain JS, closures are great for private variables. Create a function createVault that takes a secretKey (a string). It should return an object with one method: checkKey(attempt).
+The secretKey should not be accessible from outside.
+checkKey should return true if the attempt matches, false otherwise.
+
+
+JavaScript--
+function createVault(secretKey) {
+  // TODO: Fill this in
+}
+
+const myVault = createVault("password123");
+console.log(myVault.checkKey("123")); // should be false
+console.log(myVault.checkKey("password123")); // should be true
+// console.log(myVault.secretKey); // should be undefined (it's hidden!)
+
+------------------------------------------------------------------------------------
+
+Challenge 2: The Multiplier (Function Factory)
+This is a classic. Create a function called makeMultiplier(x). It should return a new function that takes a number y and returns the product of x and y.
+
+JavaScript--
+function makeMultiplier(x) {
+  // TODO: Fill this in
+}
+
+const double = makeMultiplier(2);
+const triple = makeMultiplier(3);
+
+console.log(double(5)); // should be 10
+console.log(triple(5)); // should be 15
+
+------------------------------------------------------------------------------------
+
+Challenge 3: The "React" Stale Closure Trap
+This one is the boss fight. Look at this code. It’s supposed to count up every second, but it has a bug because of how the closure is formed. Why does it only ever show "1" no matter how long you wait?
+
+JavaScript--
+function startCounter() {
+  let count = 0;
+
+  setInterval(function() {
+    // This is the closure!
+    count = count + 1;
+    console.log(`The count is: ${count}`);
+  }, 1000);
+}
+
+// Hint: This actually WORKS in plain JS. 
+// BUT, if this were a React component where 'count' was a state variable 
+// and the function was created only once, it would fail.
