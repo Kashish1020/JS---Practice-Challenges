@@ -1,0 +1,80 @@
+1. 
+function createVault(secretKey){
+
+    function checkKey(attempt){
+        // if(attempt == secretKey){
+        //     return true;
+        // }
+        // else{
+        //     return false;
+        // }
+//        return attempt == secretKey ? true: false; //can be shorten
+        return attempt == secretKey;
+}
+
+    return {checkKey};
+}
+
+const myVault = createVault("password123");
+console.log(myVault.checkKey("123"));
+console.log(myVault.checkKey("password123"));
+
+-------------------------------------------------------------------------------
+
+2. 
+function makeMultiplier(x){
+    
+    return function(y){
+        return x*y;
+    }
+}
+const double = makeMultiplier(2);
+const triple = makeMultiplier(3);
+
+console.log(double(5));
+console.log(triple(5));
+
+--------------------------------------------------------------------------------
+
+3. 
+Challenge 3: The "Private Counter" with Shared State
+Create a function createCounter(). It should return an object with two methods: increment() and decrement(). Both methods should manipulate the same private count variable.
+
+JavaScript--
+// TASK:
+const myCounter = createCounter();
+myCounter.increment();
+myCounter.increment();
+console.log(myCounter.getCount()); // Should be 2
+myCounter.decrement();
+console.log(myCounter.getCount()); // Should be 1
+// console.log(myCounter.count);   // Should be undefined
+
+
+SOLUTION - 
+function createThisCounter(){
+    let count = 0;
+
+    function increment(){
+        count += 1;
+        console.log(`count incremented to ${count}`);
+    }
+
+    function decrement(){
+        count -= 1;
+        console.log(`count decremented to ${count}`);
+    }
+    function getCount(){
+        return count;
+    }
+    return {increment, decrement, getCount};
+}
+
+const thisCounter = createThisCounter();
+
+thisCounter.increment();//1
+thisCounter.increment();//2
+console.log(`Current count is ${thisCounter.getCount()}`);
+thisCounter.decrement();
+console.log(`Current count is ${thisCounter.getCount()}`);
+
