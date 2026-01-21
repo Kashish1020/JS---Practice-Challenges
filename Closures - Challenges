@@ -5,7 +5,6 @@ In plain JS, closures are great for private variables. Create a function createV
 The secretKey should not be accessible from outside.
 checkKey should return true if the attempt matches, false otherwise.
 
-
 JavaScript--
 function createVault(secretKey) {
   // TODO: Fill this in
@@ -34,19 +33,18 @@ console.log(triple(5)); // should be 15
 
 ------------------------------------------------------------------------------------
 
-Challenge 3: The "React" Stale Closure Trap
-This one is the boss fight. Look at this code. It’s supposed to count up every second, but it has a bug because of how the closure is formed. Why does it only ever show "1" no matter how long you wait?
+Challenge 3: The "Private Counter" with Shared State
+Create a function createCounter(). It should return an object with two methods: increment() and decrement(). Both methods should manipulate the same private count variable.
 
 JavaScript--
-function startCounter() {
-  let count = 0;
-
-  setInterval(function() {
-    // This is the closure!
-    count = count + 1;
-    console.log(`The count is: ${count}`);
-  }, 1000);
-}
+// TASK:
+const myCounter = createCounter();
+myCounter.increment();
+myCounter.increment();
+console.log(myCounter.getCount()); // Should be 2
+myCounter.decrement();
+console.log(myCounter.getCount()); // Should be 1
+// console.log(myCounter.count);   // Should be undefined
 
 // Hint: This actually WORKS in plain JS. 
 // BUT, if this were a React component where 'count' was a state variable 
