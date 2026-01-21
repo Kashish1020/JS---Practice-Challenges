@@ -1,4 +1,19 @@
-1. 
+Challenge 1: The Secret Vault
+In plain JS, closures are great for private variables. Create a function createVault that takes a secretKey (a string). It should return an object with one method: checkKey(attempt).
+The secretKey should not be accessible from outside.
+checkKey should return true if the attempt matches, false otherwise.
+
+JavaScript--
+function createVault(secretKey) {
+  // TODO: Fill this in
+}
+
+const myVault = createVault("password123");
+console.log(myVault.checkKey("123")); // should be false
+console.log(myVault.checkKey("password123")); // should be true
+// console.log(myVault.secretKey); // should be undefined (it's hidden!)
+
+1. SOLUTION
 function createVault(secretKey){
 
     function checkKey(attempt){
@@ -20,8 +35,22 @@ console.log(myVault.checkKey("123"));
 console.log(myVault.checkKey("password123"));
 
 -------------------------------------------------------------------------------
+Challenge 2: The Multiplier (Function Factory)
+This is a classic. Create a function called makeMultiplier(x). It should return a new function that takes a number y and returns the product of x and y.
 
-2. 
+JavaScript--
+function makeMultiplier(x) {
+  // TODO: Fill this in
+}
+
+const double = makeMultiplier(2);
+const triple = makeMultiplier(3);
+
+console.log(double(5)); // should be 10
+console.log(triple(5)); // should be 15
+
+
+2. SOLUTION
 function makeMultiplier(x){
     
     return function(y){
@@ -51,7 +80,7 @@ console.log(myCounter.getCount()); // Should be 1
 // console.log(myCounter.count);   // Should be undefined
 
 
-SOLUTION - 
+3. SOLUTION - 
 function createThisCounter(){
     let count = 0;
 
@@ -78,3 +107,77 @@ console.log(`Current count is ${thisCounter.getCount()}`);
 thisCounter.decrement();
 console.log(`Current count is ${thisCounter.getCount()}`);
 
+--------------------------------------------------------------------------------
+4.
+Challenge 4: The Loop & setTimeout Trap
+This is a famous interview question. Look at this code:
+
+JavaScript
+
+for (var i = 1; i <= 3; i++) {
+    setTimeout(function() {
+        console.log("Counter: " + i);
+    }, 1000);
+}
+The Problem: This code will print Counter: 4 three times after one second.
+The Task: 1. Explain why it prints 4 (Hint: It involves var scope and the closure's "backpack"). 2. Fix it in two ways:
+Once using let.
+Once using an IIFE (Immediately Invoked Function Expression) to create a new closure for every loop.
+
+4. SOLUTION - 1
+for (let i = 1; i <= 3; i++) { //let creates new box for every loop unlike var which leaks
+    setTimeout(function() {  
+        console.log("Counter: " + i);
+    }, 1000);
+}
+
+
+SOLUTION - 2
+for (var i = 1; i <= 3; i++) {
+    (function(currentI){      //to call it immediately to take current i value given to it - use iife - to immendiately call it as it is defined
+        setTimeout(function() {
+        console.log("Counter: " + currentI);
+        }, 1000)
+    }
+    )(i);
+}
+--------------------------------------------------------------------------------
+
+5.
+Challenge 5: Function Memoization (Extreme Depth)
+Closures are used to create "Memory" for functions. Create a function memoize(fn). 
+It should return a new function that:
+Checks if it has already calculated the result for a specific input.
+If yes, returns the "cached" result from its closure.
+If no, calculates it, stores it in the closure's "backpack," and returns it.
+
+JavaScript--
+function slowSquare(n) {
+    console.log("Calculating...");
+    return n * n;
+}
+
+const fastSquare = memoize(slowSquare);
+
+console.log(fastSquare(5)); // Prints: "Calculating..." then 25
+console.log(fastSquare(5)); // Prints: 25 (No "Calculating..." because it's in the closure!)
+
+SOLUTION - 
+function memoize(fn){
+    const cache = {};
+    return function(n){
+        if(n in cache){
+            return cache[n]; //cache.n use n as key //cache[n] use value stored at key n as key  
+        }
+        else{
+           const result = fn(n);
+           cache[n] = result
+           return result;
+        }
+    }
+}
+const slowSquare = (n) => n * n;
+const fastSquare = memoize(slowSquare);
+
+console.log(fastSquare(5)); // 25
+console.log(fastSquare(10)); // 100
